@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { type Pool } from "mysql2/promise";
+import { type TodoQueryResult } from "../types";
 
 class TodosController {
   constructor(private readonly pool: Pool) {}
@@ -8,7 +9,7 @@ class TodosController {
     try {
       const sql = "SELECT * FROM `todos` WHERE user_id = ?";
 
-      const [results] = await this.pool.query(sql, [1]); // 회원가입 기능 구현전 임시 user_id 1로 설정
+      const [results] = await this.pool.query<TodoQueryResult[]>(sql, [1]); // 회원가입 기능 구현전 임시 user_id 1로 설정
 
       res.json({
         success: true,
@@ -66,7 +67,7 @@ class TodosController {
 
       await this.pool.query(sql, [id]);
 
-      const [results] = await this.pool.query(
+      const [results] = await this.pool.query<TodoQueryResult[]>(
         "SELECT * FROM todos WHERE id = ?",
         [id]
       );
@@ -74,7 +75,7 @@ class TodosController {
       res.json({
         success: true,
         message: "To-do 상태 변경 성공",
-        data: results,
+        data: results[0],
       });
     } catch (error) {
       if (error instanceof Error) {
