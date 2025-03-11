@@ -1,6 +1,6 @@
 import express from "express";
 import todos from "./src/routes/todos";
-import { connectToDatabase } from "./src/middleware/database-connect";
+import { connectToDatabase } from "./src/lib/database-connect";
 import dotenv from "dotenv";
 
 dotenv.config();

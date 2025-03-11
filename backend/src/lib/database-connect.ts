@@ -1,7 +1,7 @@
 import { createPool } from "mysql2/promise";
 import { dbConfig } from "../config/database";
 
-const pool = createPool(dbConfig);
+export const pool = createPool(dbConfig);
 
 export const connectToDatabase = async () => {
   try {
