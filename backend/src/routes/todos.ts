@@ -3,7 +3,7 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.send("TODOS API");
+  res.json({ message: "Hello World" });
 });
 
 export default router;

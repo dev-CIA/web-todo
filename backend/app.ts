@@ -1,6 +1,6 @@
 import express from "express";
 import todos from "./src/routes/todos";
-import { connectToDatabase } from "./todo-rest-api/config/database";
+import { connectToDatabase } from "./src/middleware/database-connect";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -12,8 +12,26 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/todos", todos);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+const startServer = async () => {
+  try {
+    const connected = await connectToDatabase();
+
+    if (!connected) {
+      console.error("Unable to connect to database");
+      process.exit(1);
+    }
+
+    console.log("Database connection verified");
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to connect to the database:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 export default app;
