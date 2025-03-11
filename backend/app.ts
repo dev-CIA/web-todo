@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import todos from "./src/routes/todos";
 import { connectToDatabase } from "./src/lib/database-connect";
 import dotenv from "dotenv";
@@ -6,6 +7,13 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
+
+const corsOptions: cors.CorsOptions = {
+  origin: [/localhost(:[0-9]+)?$/, "http://127.0.0.1:5555"],
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
