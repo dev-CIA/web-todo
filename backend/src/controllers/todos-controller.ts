@@ -123,6 +123,33 @@ class TodosController {
       }
     }
   }
+
+  async deleteTodo(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const sql = "DELETE FROM todos WHERE id = ?";
+
+      await this.pool.query(sql, [id]);
+
+      res.json({
+        success: true,
+        message: "To-do 삭제 성공",
+        data: { id },
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+
+        res.status(500).json({
+          success: false,
+          status: 500,
+          message: "서버 오류가 발생했습니다.",
+          error: "Internal server error",
+        });
+      }
+    }
+  }
 }
 
 export default TodosController;

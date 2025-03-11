@@ -12,5 +12,6 @@ router.patch(
   todosController.toggleTodoStatus.bind(todosController)
 );
 router.put("/:id", todosController.updateTodo.bind(todosController));
+router.delete("/:id", todosController.deleteTodo.bind(todosController));
 
 export default router;
