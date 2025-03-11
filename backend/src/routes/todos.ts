@@ -11,5 +11,6 @@ router.patch(
   "/:id/status",
   todosController.toggleTodoStatus.bind(todosController)
 );
+router.put("/:id", todosController.updateTodo.bind(todosController));
 
 export default router;

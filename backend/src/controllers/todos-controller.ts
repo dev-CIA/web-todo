@@ -90,6 +90,39 @@ class TodosController {
       }
     }
   }
+
+  async updateTodo(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { title } = req.body;
+
+      const sql = "UPDATE todos SET title = ? WHERE id = ?";
+
+      await this.pool.query(sql, [title, id]);
+
+      const [results] = await this.pool.query<TodoQueryResult[]>(
+        "SELECT * FROM todos WHERE id = ?",
+        [id]
+      );
+
+      res.json({
+        success: true,
+        message: "To-do 수정 성공",
+        data: results[0],
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+
+        res.status(500).json({
+          success: false,
+          status: 500,
+          message: "서버 오류가 발생했습니다.",
+          error: "Internal server error",
+        });
+      }
+    }
+  }
 }
 
 export default TodosController;
