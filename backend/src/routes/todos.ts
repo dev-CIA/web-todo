@@ -7,5 +7,9 @@ const todosController = new TodosController(pool);
 
 router.get("/", todosController.getTodos.bind(todosController));
 router.post("/", todosController.createTodo.bind(todosController));
+router.patch(
+  "/:id/status",
+  todosController.toggleTodoStatus.bind(todosController)
+);
 
 export default router;

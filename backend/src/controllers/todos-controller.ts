@@ -8,9 +8,13 @@ class TodosController {
     try {
       const sql = "SELECT * FROM `todos` WHERE user_id = ?";
 
-      const [rows] = await this.pool.query(sql, [1]); // 회원가입 기능 구현전 임시 user_id 1로 설정
+      const [results] = await this.pool.query(sql, [1]); // 회원가입 기능 구현전 임시 user_id 1로 설정
 
-      res.json({ success: true, message: "To-do 목록 조회 성공", data: rows });
+      res.json({
+        success: true,
+        message: "To-do 목록 조회 성공",
+        data: results,
+      });
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -34,6 +38,44 @@ class TodosController {
       await this.pool.query(sql, [title, 1]); // 회원가입 기능 구현전 임시 user_id 1로 설정
 
       res.json({ success: true, message: "To-do 생성 성공" });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+
+        res.status(500).json({
+          success: false,
+          status: 500,
+          message: "서버 오류가 발생했습니다.",
+          error: "Internal server error",
+        });
+      }
+    }
+  }
+
+  async toggleTodoStatus(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+
+      const sql = `
+        UPDATE todos 
+        SET status = CASE 
+          WHEN status = 'not_started' THEN 'completed' 
+          ELSE 'not_started' 
+        END 
+        WHERE id = ?`;
+
+      await this.pool.query(sql, [id]);
+
+      const [results] = await this.pool.query(
+        "SELECT * FROM todos WHERE id = ?",
+        [id]
+      );
+
+      res.json({
+        success: true,
+        message: "To-do 상태 변경 성공",
+        data: results,
+      });
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
