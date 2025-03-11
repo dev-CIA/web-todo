@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { pool } from "../middleware/database-connect";
+import { pool } from "../lib/database-connect";
 import TodosController from "../controllers/todos-controller";
 
 const router = Router();
