@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import todos from "./src/routes/todos";
 import { connectToDatabase } from "./src/lib/database-connect";
+import swaggerUi from "swagger-ui-express";
+import specs from "./src/lib/swagger";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -14,6 +16,8 @@ const corsOptions: cors.CorsOptions = {
 };
 
 app.use(cors());
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

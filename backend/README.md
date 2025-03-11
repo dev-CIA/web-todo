@@ -39,3 +39,5 @@
       ```
 
 ## API 문서 & ERD
+
+- API: http://localhost:3010/api-docs/
