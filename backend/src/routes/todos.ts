@@ -1,9 +1,11 @@
 import { Router } from "express";
+import { pool } from "../middleware/database-connect";
+import TodosController from "../controllers/todos-controller";
 
 const router = Router();
+const todosController = new TodosController(pool);
 
-router.get("/", (req, res) => {
-  res.json({ message: "Hello World" });
-});
+router.get("/", todosController.getTodos.bind(todosController));
+router.post("/", todosController.createTodo.bind(todosController));
 
 export default router;
