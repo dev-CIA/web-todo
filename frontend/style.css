@@ -1,30 +1,75 @@
+/* 기본 설정 */
 html, body {
     height: 100vh;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+/* 로그인 화면 */
+.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f4f4f4;
+    height: 100vh;
 }
 
+/* 로그인 화면 전용 */
 .container {
     padding: 20px;
     text-align: center;
     width: 300px;
 }
 
-h2 {
-    margin-bottom: 20px;
+/* To-Do 화면 */
+.todo-container {
+    width: 80%;
+    height: 100vh;
+    display: flex;
 }
 
+/* 사이드바 스타일 */
+.sidebar {
+    width: 200px;
+    padding: 40px;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+
+/* span 내부 글씨 왼쪽 정렬 */
+.sidebar span {
+    text-align: left;
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #E2E8F0;
+}
+
+/* 메인 컨텐츠 */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* To-Do 화면에서만 적용될 컨테이너 */
+.todo-container .container {
+    width: 100%;
+    max-width: 1000px;
+    text-align: left;
+}
+
+/* 입력창 및 버튼 */
 input, button {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ddd;
     border-radius: 5px;
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 button {
@@ -37,4 +82,73 @@ button {
 
 button:hover {
     background: #a0b5bd;
+}
+
+/* 리스트 스타일 */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+li span{
+    text-align: left;
+}
+
+/* 입력창과 버튼을 가로로 정렬 */
+.input-group {
+    display: flex;
+    gap: 10px; /* 입력창과 버튼 사이 간격 */
+    align-items: center;
+}
+
+/* 입력 필드는 가능한 최대 너비 차지 */
+.input-group input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* 버튼은 고정 너비 설정 */
+.input-group button {
+    width: 100px; /* 버튼 크기 고정 */
+    padding: 10px;
+    border: none;
+    background: #000000;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* 삭제 및 수정 버튼 */
+button.delete, button.edit {
+    padding: 10px 5px;
+    width: 70px;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+button.delete {
+    background: rgb(255, 255, 255);
+    color: red;
+    border: 1px solid red;
+}
+
+button.edit {
+    background: rgb(255, 255, 255);
+    color: gray;
+    border: 1px solid gray;
+    margin-right: 5px;
 }
