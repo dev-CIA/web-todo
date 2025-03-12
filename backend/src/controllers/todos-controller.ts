@@ -38,7 +38,7 @@ class TodosController {
 
       await this.pool.query(sql, [title, 1]); // 회원가입 기능 구현전 임시 user_id 1로 설정
 
-      res.json({ success: true, message: "To-do 생성 성공" });
+      res.status(201).json({ success: true, message: "To-do 생성 성공" });
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
