@@ -1,4 +1,3 @@
-/* 기본 설정 */
 html, body {
     height: 100vh;
     margin: 0;
@@ -29,7 +28,7 @@ html, body {
     display: flex;
 }
 
-/* 사이드바 스타일 */
+/* 사이드바 */
 .sidebar {
     width: 200px;
     padding: 40px;
@@ -38,7 +37,6 @@ html, body {
     justify-content: center;
 }
 
-/* span 내부 글씨 왼쪽 정렬 */
 .sidebar span {
     text-align: left;
     width: 100%;
@@ -47,7 +45,7 @@ html, body {
     background-color: #E2E8F0;
 }
 
-/* 메인 컨텐츠 */
+/* 메인 */
 .main-content {
     flex-grow: 1;
     display: flex;
@@ -55,14 +53,14 @@ html, body {
     align-items: flex-start;
 }
 
-/* To-Do 화면에서만 적용될 컨테이너 */
+/* To-Do 화면 */
 .todo-container .container {
     width: 100%;
     max-width: 1000px;
     text-align: left;
 }
 
-/* 입력창 및 버튼 */
+/* 할 일 입력창, 버튼 */
 input, button {
     width: 100%;
     padding: 10px;
@@ -80,38 +78,17 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    background: #a0b5bd;
-}
-
-/* 리스트 스타일 */
 ul {
     list-style: none;
     padding: 0;
 }
 
-li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #f9f9f9;
-    padding: 10px;
-    border-radius: 5px;
-    margin: 5px 0;
-}
-
-li span{
-    text-align: left;
-}
-
-/* 입력창과 버튼을 가로로 정렬 */
 .input-group {
     display: flex;
-    gap: 10px; /* 입력창과 버튼 사이 간격 */
+    gap: 10px; 
     align-items: center;
 }
 
-/* 입력 필드는 가능한 최대 너비 차지 */
 .input-group input {
     flex: 1;
     padding: 10px;
@@ -120,9 +97,8 @@ li span{
     box-sizing: border-box;
 }
 
-/* 버튼은 고정 너비 설정 */
 .input-group button {
-    width: 100px; /* 버튼 크기 고정 */
+    width: 100px; 
     padding: 10px;
     border: none;
     background: #000000;
@@ -132,23 +108,167 @@ li span{
 }
 
 
-/* 삭제 및 수정 버튼 */
-button.delete, button.edit {
-    padding: 10px 5px;
-    width: 70px;
-    font-size: 12px;
-    border-radius: 3px;
+/* 리스트 스타일 */
+li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    border-radius: 5px;
+    gap: 5px;
 }
 
+/* 체크박스 스타일 커스텀 */
+li input[type="checkbox"] {
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    
+    /* 기본 스타일 제거 */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+
+    border: 2px solid rgb(110, 109, 109); 
+    border-radius: 8px; 
+    background-color: white; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+li input[type="checkbox"]:checked {
+    background-color: rgb(110, 109, 109); 
+    position: relative;
+}
+
+li input[type="checkbox"]:checked::after {
+    content: "✔";  
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+}
+
+/* 할 일 텍스트 스타일 */
+li span {
+    flex-grow: 1; 
+    min-width: 150px; 
+    text-align: left;
+    padding: 5px 10px;
+    white-space: nowrap; /* 한 줄 유지 */
+    overflow: hidden; /* 넘칠 경우 숨김 */
+    text-overflow: ellipsis; /* 말줄임표 표시 */
+}
+
+/* 버튼 그룹 */
+.button-group {
+    display: flex;
+    gap: 5px;
+}
+
+/* 수정, 삭제 버튼 */
+button.delete, button.edit {
+    padding: 8px 12px; 
+    font-size: 12px; 
+    border-radius: 5px;
+    width: auto; 
+    min-width: 50px; 
+}
+
+/* 삭제 버튼 스타일 */
 button.delete {
-    background: rgb(255, 255, 255);
+    background: white;
     color: red;
     border: 1px solid red;
 }
 
+/* 수정 버튼 스타일 */
 button.edit {
-    background: rgb(255, 255, 255);
+    background: white;
     color: gray;
     border: 1px solid gray;
-    margin-right: 5px;
+}
+
+/* 완료, 취소 버튼 컨테이너 */
+.edit-buttons {
+    display: flex;
+    gap: 5px; 
+}
+
+/* 완료, 취소 버튼 스타일 */
+.complete-btn, .cancel-btn {
+    padding: 8px 12px; 
+    font-size: 12px;
+    border-radius: 5px;
+    width: auto; 
+    min-width: 50px; 
+}
+
+.complete-btn {
+    background-color: #000000; /* 초록색 */
+    color: white;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+.cancel-btn {
+    background-color: #ffffff; /* 빨간색 */
+    color: rgb(0, 0, 0);
+    border: 1px solid gray;
+}
+
+/* 삭제 모달 스타일 */
+#confirmModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    min-height: 150px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* 삭제 메시지 스타일 */
+#confirmModal p {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* 삭제 모달 내 버튼 컨테이너*/
+#confirmModal .button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+/* 확인, 취소 버튼 스타일 */
+#confirmDelete, #cancelDelete {
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+#confirmDelete {
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+
+#cancelDelete {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid gray;
+    color: rgb(0, 0, 0);
 }
