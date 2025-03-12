@@ -41,3 +41,6 @@
 ## API 문서 & ERD
 
 - API: http://localhost:3010/api-docs/
+
+- ERD
+  ![DBDiagram](/public/webtodo-db.png)
