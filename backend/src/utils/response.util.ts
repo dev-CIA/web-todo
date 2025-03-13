@@ -44,11 +44,18 @@ export const handleError = (res: Response, error: unknown): void => {
   console.error("Error occurred:", error);
 
   if (error instanceof Error) {
-    const statusCode =
-      getStatusCode(error.message) ?? StatusCodes.INTERNAL_SERVER_ERROR;
+    console.log(error.message);
+
+    let statusCode: StatusCodes;
+
+    try {
+      statusCode =
+        getStatusCode(error.message) ?? StatusCodes.INTERNAL_SERVER_ERROR;
+    } catch (err) {
+      statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+    }
 
     const errorMessage = error.message ?? "Unknown error occurred";
-
     const errorResponse = createErrorResponse(statusCode, errorMessage);
 
     res.status(statusCode).json(errorResponse);
