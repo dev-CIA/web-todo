@@ -8,6 +8,12 @@ export interface User {
   createdAt: Date;
 }
 
+export interface ReqUser {
+  id: number;
+  iat: number;
+  exp: number;
+}
+
 export interface Todo {
   id: number;
   title: string;
