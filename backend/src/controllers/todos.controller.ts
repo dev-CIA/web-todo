@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { type Pool } from "mysql2/promise";
 import { type TodoQueryResult } from "../types";
-import { handleError } from "../utils/response.util";
+import { createSuccessResponse, handleError } from "../utils/response.util";
 import { StatusCodes } from "http-status-codes";
+import { SUCCESS_MESSAGES } from "../constants/message.constant";
 
 class TodosController {
   constructor(private readonly pool: Pool) {}
@@ -13,11 +14,7 @@ class TodosController {
 
       const [results] = await this.pool.query<TodoQueryResult[]>(sql, [1]); // 회원가입 기능 구현전 임시 user_id 1로 설정
 
-      res.json({
-        success: true,
-        message: "To-do 목록 조회 성공",
-        data: results,
-      });
+      res.json(createSuccessResponse(SUCCESS_MESSAGES.TODO_LIST, results));
     } catch (error) {
       handleError(res, error);
     }
@@ -33,7 +30,7 @@ class TodosController {
 
       res
         .status(StatusCodes.CREATED)
-        .json({ success: true, message: "To-do 생성 성공" });
+        .json(createSuccessResponse(SUCCESS_MESSAGES.TODO_CREATE));
     } catch (error) {
       handleError(res, error);
     }
@@ -58,11 +55,7 @@ class TodosController {
         [id]
       );
 
-      res.json({
-        success: true,
-        message: "To-do 상태 변경 성공",
-        data: results[0],
-      });
+      res.json(createSuccessResponse(SUCCESS_MESSAGES.TODO_STATUS, results[0]));
     } catch (error) {
       handleError(res, error);
     }
@@ -82,11 +75,7 @@ class TodosController {
         [id]
       );
 
-      res.json({
-        success: true,
-        message: "To-do 수정 성공",
-        data: results[0],
-      });
+      res.json(createSuccessResponse(SUCCESS_MESSAGES.TODO_EDIT, results[0]));
     } catch (error) {
       handleError(res, error);
     }
@@ -100,11 +89,7 @@ class TodosController {
 
       await this.pool.query(sql, [id]);
 
-      res.json({
-        success: true,
-        message: "To-do 삭제 성공",
-        data: { id },
-      });
+      res.json(createSuccessResponse(SUCCESS_MESSAGES.TODO_DELETE, { id }));
     } catch (error) {
       handleError(res, error);
     }

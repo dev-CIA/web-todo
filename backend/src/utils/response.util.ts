@@ -17,14 +17,19 @@ interface SuccessResponse<T = unknown> {
 
 export const createErrorResponse = (
   status: StatusCodes,
-  message: string,
   error?: string
-): ErrorResponse => ({
-  success: false,
-  status,
-  message,
-  error: error || getReasonPhrase(status),
-});
+): ErrorResponse => {
+  const statusConstant = StatusCodes[status];
+
+  return {
+    success: false,
+    status,
+    message:
+      ERROR_MESSAGES[statusConstant as keyof typeof StatusCodes] ??
+      getReasonPhrase(status),
+    error: error || getReasonPhrase(status),
+  };
+};
 
 export const createSuccessResponse = <T>(
   message: string,
@@ -40,7 +45,6 @@ export const handleError = (res: Response, error: unknown): void => {
 
   const errorResponse = createErrorResponse(
     StatusCodes.INTERNAL_SERVER_ERROR,
-    ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
     error instanceof Error ? error.message : "Unknown error occurred"
   );
 

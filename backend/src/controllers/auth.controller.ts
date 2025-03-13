@@ -3,9 +3,16 @@ import jwt from "jsonwebtoken";
 import { type Pool } from "mysql2/promise";
 import crypto from "crypto";
 import { StatusCodes } from "http-status-codes";
-import { createErrorResponse, handleError } from "../utils/response.util";
+import {
+  createErrorResponse,
+  createSuccessResponse,
+  handleError,
+} from "../utils/response.util";
 import { UserQueryResult } from "../types";
-import { ERROR_MESSAGES } from "../constants/message.constant";
+import {
+  ERROR_MESSAGES,
+  SUCCESS_MESSAGES,
+} from "../constants/message.constant";
 
 class AuthController {
   constructor(private readonly pool: Pool) {}
@@ -26,7 +33,7 @@ class AuthController {
 
       res
         .status(StatusCodes.CREATED)
-        .json({ success: true, message: "회원가입 성공" });
+        .json(createSuccessResponse(SUCCESS_MESSAGES.REGISTER));
     } catch (error) {
       handleError(res, error);
     }
@@ -62,12 +69,7 @@ class AuthController {
       if (!user || user.password !== hashedPassword) {
         return res
           .status(StatusCodes.UNAUTHORIZED)
-          .json(
-            createErrorResponse(
-              StatusCodes.UNAUTHORIZED,
-              ERROR_MESSAGES.UNAUTHORIZED
-            )
-          );
+          .json(createErrorResponse(StatusCodes.UNAUTHORIZED));
       }
     } catch (error) {
       handleError(res, error);
