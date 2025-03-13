@@ -1,8 +1,12 @@
 import { Request, Response } from "express";
-import { type Pool } from "mysql2/promise";
+import { type Pool, ResultSetHeader } from "mysql2/promise";
 import { type TodoQueryResult } from "../types";
-import { createSuccessResponse, handleError } from "../utils/response.util";
-import { StatusCodes } from "http-status-codes";
+import {
+  createSuccessResponse,
+  createErrorResponse,
+  handleError,
+} from "../utils/response.util";
+import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import { SUCCESS_MESSAGES } from "../constants/message.constant";
 
 class TodosController {
@@ -48,14 +52,18 @@ class TodosController {
         END 
         WHERE id = ?`;
 
-      await this.pool.query(sql, [id]);
+      const [toggleResult] = await this.pool.query<ResultSetHeader>(sql, [id]);
 
-      const [results] = await this.pool.query<TodoQueryResult[]>(
+      if (toggleResult.affectedRows === 0) {
+        throw new Error(getReasonPhrase(StatusCodes.NOT_FOUND));
+      }
+
+      const [todos] = await this.pool.query<TodoQueryResult[]>(
         "SELECT * FROM todos WHERE id = ?",
         [id]
       );
 
-      res.json(createSuccessResponse(SUCCESS_MESSAGES.TODO_STATUS, results[0]));
+      res.json(createSuccessResponse(SUCCESS_MESSAGES.TODO_STATUS, todos[0]));
     } catch (error) {
       handleError(res, error);
     }
@@ -68,14 +76,21 @@ class TodosController {
 
       const sql = "UPDATE todos SET title = ? WHERE id = ?";
 
-      await this.pool.query(sql, [title, id]);
+      const [updateResult] = await this.pool.query<ResultSetHeader>(sql, [
+        title,
+        id,
+      ]);
 
-      const [results] = await this.pool.query<TodoQueryResult[]>(
+      if (updateResult.affectedRows === 0) {
+        throw new Error(getReasonPhrase(StatusCodes.NOT_FOUND));
+      }
+
+      const [todos] = await this.pool.query<TodoQueryResult[]>(
         "SELECT * FROM todos WHERE id = ?",
         [id]
       );
 
-      res.json(createSuccessResponse(SUCCESS_MESSAGES.TODO_EDIT, results[0]));
+      res.json(createSuccessResponse(SUCCESS_MESSAGES.TODO_EDIT, todos[0]));
     } catch (error) {
       handleError(res, error);
     }
@@ -87,7 +102,11 @@ class TodosController {
 
       const sql = "DELETE FROM todos WHERE id = ?";
 
-      await this.pool.query(sql, [id]);
+      const [deleteResult] = await this.pool.query<ResultSetHeader>(sql, [id]);
+
+      if (deleteResult.affectedRows === 0) {
+        throw new Error(getReasonPhrase(StatusCodes.NOT_FOUND));
+      }
 
       res.json(createSuccessResponse(SUCCESS_MESSAGES.TODO_DELETE, { id }));
     } catch (error) {
