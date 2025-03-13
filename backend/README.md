@@ -14,17 +14,23 @@
 
 ## 설치 및 실행
 
-1. 필요한 패키지를 설치합니다.
+1. backend 폴더로 이동합니다.
+
+   ```bash
+   cd backend
+   ```
+
+2. 필요한 패키지를 설치합니다.
 
    ```bash
    npm install
    ```
 
-2. 데이터베이스 설정을 구성합니다.
+3. 데이터베이스 설정을 구성합니다.
 
    - `src/config/database.ts` 수정 또는 `.env`파일을 추가하여 MariaDB 연결 정보를 입력합니다.
 
-3. 서버를 실행합니다.
+4. 서버를 실행합니다.
 
    1. 개발 모드로 서버를 실행할 경우
 
@@ -41,3 +47,6 @@
 ## API 문서 & ERD
 
 - API: http://localhost:3010/api-docs/
+
+- ERD
+  ![DBDiagram](/public/webtodo-db.png)

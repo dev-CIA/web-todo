@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import auth from "./src/routes/auth";
 import todos from "./src/routes/todos";
 import { connectToDatabase } from "./src/lib/database-connect";
 import swaggerUi from "swagger-ui-express";
@@ -22,6 +23,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/api/auth", auth);
 app.use("/api/todos", todos);
 
 const startServer = async () => {
