@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { type Pool } from "mysql2/promise";
 import { type TodoQueryResult } from "../types";
+import { handleError } from "../utils/response.util";
+import { StatusCodes } from "http-status-codes";
 
 class TodosController {
   constructor(private readonly pool: Pool) {}
@@ -17,16 +19,7 @@ class TodosController {
         data: results,
       });
     } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
-
-        res.status(500).json({
-          success: false,
-          status: 500,
-          message: "서버 오류가 발생했습니다.",
-          error: "Internal server error",
-        });
-      }
+      handleError(res, error);
     }
   }
 
@@ -38,18 +31,11 @@ class TodosController {
 
       await this.pool.query(sql, [title, 1]); // 회원가입 기능 구현전 임시 user_id 1로 설정
 
-      res.status(201).json({ success: true, message: "To-do 생성 성공" });
+      res
+        .status(StatusCodes.CREATED)
+        .json({ success: true, message: "To-do 생성 성공" });
     } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
-
-        res.status(500).json({
-          success: false,
-          status: 500,
-          message: "서버 오류가 발생했습니다.",
-          error: "Internal server error",
-        });
-      }
+      handleError(res, error);
     }
   }
 
@@ -78,16 +64,7 @@ class TodosController {
         data: results[0],
       });
     } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
-
-        res.status(500).json({
-          success: false,
-          status: 500,
-          message: "서버 오류가 발생했습니다.",
-          error: "Internal server error",
-        });
-      }
+      handleError(res, error);
     }
   }
 
@@ -111,16 +88,7 @@ class TodosController {
         data: results[0],
       });
     } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
-
-        res.status(500).json({
-          success: false,
-          status: 500,
-          message: "서버 오류가 발생했습니다.",
-          error: "Internal server error",
-        });
-      }
+      handleError(res, error);
     }
   }
 
@@ -138,16 +106,7 @@ class TodosController {
         data: { id },
       });
     } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
-
-        res.status(500).json({
-          success: false,
-          status: 500,
-          message: "서버 오류가 발생했습니다.",
-          error: "Internal server error",
-        });
-      }
+      handleError(res, error);
     }
   }
 }
