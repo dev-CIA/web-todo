@@ -9,10 +9,7 @@ import {
   handleError,
 } from "../utils/response.util";
 import { UserQueryResult } from "../types";
-import {
-  ERROR_MESSAGES,
-  SUCCESS_MESSAGES,
-} from "../constants/message.constant";
+import { SUCCESS_MESSAGES } from "../constants/message.constant";
 
 class AuthController {
   constructor(private readonly pool: Pool) {}

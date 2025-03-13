@@ -1,4 +1,4 @@
-import { StatusCodes, getReasonPhrase } from "http-status-codes";
+import { StatusCodes, getReasonPhrase, getStatusCode } from "http-status-codes";
 import { ERROR_MESSAGES } from "../constants/message.constant";
 import { type Response } from "express";
 
@@ -43,10 +43,14 @@ export const createSuccessResponse = <T>(
 export const handleError = (res: Response, error: unknown): void => {
   console.error("Error occurred:", error);
 
-  const errorResponse = createErrorResponse(
-    StatusCodes.INTERNAL_SERVER_ERROR,
-    error instanceof Error ? error.message : "Unknown error occurred"
-  );
+  if (error instanceof Error) {
+    const statusCode =
+      getStatusCode(error.message) ?? StatusCodes.INTERNAL_SERVER_ERROR;
 
-  res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(errorResponse);
+    const errorMessage = error.message ?? "Unknown error occurred";
+
+    const errorResponse = createErrorResponse(statusCode, errorMessage);
+
+    res.status(statusCode).json(errorResponse);
+  }
 };
