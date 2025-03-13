@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import authRouter from "./src/routes/auth.routes";
 import todosRouter from "./src/routes/todos.routes";
-import { connectToDatabase } from "./src/lib/database-connect";
+import { connectToDatabase } from "./src/lib/database.lib";
 import swaggerUi from "swagger-ui-express";
 import specs from "./src/lib/swagger";
 import dotenv from "dotenv";
@@ -17,6 +18,7 @@ const corsOptions: cors.CorsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
@@ -28,13 +30,7 @@ app.use("/api/todos", todosRouter);
 
 const startServer = async () => {
   try {
-    const connected = await connectToDatabase();
-
-    if (!connected) {
-      console.error("Unable to connect to database");
-      process.exit(1);
-    }
-
+    await connectToDatabase();
     console.log("Database connection verified");
 
     app.listen(PORT, () => {
