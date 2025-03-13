@@ -14,9 +14,10 @@ class TodosController {
 
   async getTodos(req: Request, res: Response) {
     try {
+      const id = req.user?.id;
       const sql = "SELECT * FROM `todos` WHERE user_id = ?";
 
-      const [results] = await this.pool.query<TodoQueryResult[]>(sql, [1]); // 회원가입 기능 구현전 임시 user_id 1로 설정
+      const [results] = await this.pool.query<TodoQueryResult[]>(sql, [id]); // 회원가입 기능 구현전 임시 user_id 1로 설정
 
       res.json(createSuccessResponse(SUCCESS_MESSAGES.TODO_LIST, results));
     } catch (error) {
@@ -26,11 +27,12 @@ class TodosController {
 
   async createTodo(req: Request, res: Response) {
     try {
+      const id = req.user?.id;
       const { title } = req.body;
 
       const sql = "INSERT INTO `todos` (title, user_id) VALUES (?, ?)";
 
-      await this.pool.query(sql, [title, 1]); // 회원가입 기능 구현전 임시 user_id 1로 설정
+      await this.pool.query(sql, [title, id]);
 
       res
         .status(StatusCodes.CREATED)

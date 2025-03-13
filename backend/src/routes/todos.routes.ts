@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { pool } from "../lib/database.lib";
 import TodosController from "../controllers/todos.controller";
+import authMiddleware from "../middlewares/auth.middleware";
 
 const router = Router();
 const todosController = new TodosController(pool);
@@ -21,13 +22,26 @@ const todosController = new TodosController(pool);
  *               items:
  *                 $ref: '#/components/schemas/Todo'
  */
-router.get("/", todosController.getTodos.bind(todosController));
-router.post("/", todosController.createTodo.bind(todosController));
+router.get("/", authMiddleware, todosController.getTodos.bind(todosController));
+router.post(
+  "/",
+  authMiddleware,
+  todosController.createTodo.bind(todosController)
+);
 router.patch(
   "/:id/status",
+  authMiddleware,
   todosController.toggleTodoStatus.bind(todosController)
 );
-router.put("/:id", todosController.updateTodo.bind(todosController));
-router.delete("/:id", todosController.deleteTodo.bind(todosController));
+router.put(
+  "/:id",
+  authMiddleware,
+  todosController.updateTodo.bind(todosController)
+);
+router.delete(
+  "/:id",
+  authMiddleware,
+  todosController.deleteTodo.bind(todosController)
+);
 
 export default router;
