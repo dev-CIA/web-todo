@@ -1,5 +1,5 @@
 import { Router, RequestHandler } from "express";
-import { pool } from "../lib/database-connect";
+import { pool } from "../lib/database.lib";
 import AuthController from "../controllers/auth.controller";
 
 const router = Router();
