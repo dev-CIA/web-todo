@@ -28,7 +28,7 @@ class AuthController {
         .status(StatusCodes.CREATED)
         .json({ success: true, message: "회원가입 성공" });
     } catch (error) {
-      errorHandler(res, error);
+      handleError(res, error);
     }
   }
 
@@ -70,7 +70,7 @@ class AuthController {
           );
       }
     } catch (error) {
-      errorHandler(res, error);
+      handleError(res, error);
     }
   }
 }
