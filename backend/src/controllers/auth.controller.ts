@@ -3,9 +3,9 @@ import jwt from "jsonwebtoken";
 import { type Pool } from "mysql2/promise";
 import crypto from "crypto";
 import { StatusCodes } from "http-status-codes";
-import { createErrorResponse, errorHandler } from "../utils/response";
+import { createErrorResponse, handleError } from "../utils/response.util";
 import { UserQueryResult } from "../types";
-import { ERROR_MESSAGES } from "../constants/response-messages";
+import { ERROR_MESSAGES } from "../constants/message.constant";
 
 class AuthController {
   constructor(private readonly pool: Pool) {}
