@@ -11,12 +11,22 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
+// const corsOptions: cors.CorsOptions = {
+//   origin: [/localhost(:[0-9]+)?$/, "http://127.0.0.1:5555"],
+//   optionsSuccessStatus: 200,
+// };
+
+// app.use(cors());
+
 const corsOptions: cors.CorsOptions = {
-  origin: [/localhost(:[0-9]+)?$/, "http://127.0.0.1:5555"],
+  origin: ["http://127.0.0.1:5500", "http://localhost:5500"], // 특정 오리진만 허용
+  credentials: true, // 인증 정보를 포함한 요청 허용
   optionsSuccessStatus: 200,
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // preflight 요청 허용
+
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 

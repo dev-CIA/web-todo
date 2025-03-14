@@ -1,10 +1,17 @@
 // 회원가입 페이지로 이동
-function goToRegister() {
-    window.location.href = "register.html";
+function showRegisterForm() {
+    document.getElementById("login-form").style.display = "none";
+    document.getElementById("register-form").style.display = "block";
+}
+
+// 로그인 페이지로 이동
+function showLoginForm() {
+    document.getElementById("register-form").style.display = "none";
+    document.getElementById("login-form").style.display = "block";
 }
 
 // 로그인
-function login() {
+async function login() {
     const username = document.getElementById("login-username").value;
     const password = document.getElementById("login-password").value;
 
@@ -13,12 +20,32 @@ function login() {
         return;
     }
 
-    alert(`로그인 성공: ${username}`);
-    window.location.href = "todo.html";
+    try {
+        const response = await fetch("http://localhost:3010/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId: username, password: password }),
+            credentials: "include", // 쿠키 포함
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("로그인 성공! 할 일 페이지로 이동합니다.");
+            window.location.href = "todo.html"; // 성공 시 todo 페이지로 이동
+        } else {
+            alert(data.message || "로그인 실패");
+        }
+    } catch (error) {
+        console.error("로그인 요청 실패:", error);
+        alert("서버에 연결할 수 없습니다.");
+    }
 }
 
-// 회원가입 기능
-function register() {
+// 회원가입
+async function register() {
     const username = document.getElementById("register-username").value;
     const password = document.getElementById("register-password").value;
     const confirmPassword = document.getElementById("register-confirm-password").value;
@@ -33,8 +60,37 @@ function register() {
         return;
     }
 
-    alert(`회원가입 성공: ${username}`);
+    try {
+        const response = await fetch("http://localhost:3010/api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId: username, password: password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("회원가입 성공! 이제 로그인하세요.");
+            showLoginForm(); // 회원가입 후 로그인 페이지로 이동
+        } else {
+            alert(data.message || "회원가입 실패");
+        }
+    } catch (error) {
+        console.error("회원가입 요청 실패:", error);
+        alert("서버에 연결할 수 없습니다.");
+    }
 }
+
+
+
+
+
+
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const todoInput = document.getElementById("todo-input");

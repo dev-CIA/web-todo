@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인</title>
+    <title>로그인 & 회원가입</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="login-container">
-        <div class="container">
+        
+        <div class="container" id="login-form">
             <h2>로그인</h2>
-            <input type="text" id="login-username" placeholder="아이디를 입력해주세요.">
-            <input type="password" id="login-password" placeholder="비밀번호를 입력해주세요.">
+            <input type="text" id="login-username" placeholder="아이디">
+            <input type="password" id="login-password" placeholder="비밀번호">
             <button onclick="login()">로그인</button>
-            <button onclick="goToRegister()">회원가입</button>
+            <button onclick="showRegisterForm()">회원가입</button>
+        </div>
+
+        <div class="container" id="register-form" style="display: none;">
+            <h2>회원가입</h2>
+            <input type="text" id="register-username" placeholder="아이디">
+            <input type="password" id="register-password" placeholder="비밀번호">
+            <input type="password" id="register-confirm-password" placeholder="비밀번호 확인">
+            <button onclick="register()">회원가입</button>
+            <button onclick="showLoginForm()">뒤로가기</button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
