@@ -196,57 +196,57 @@ document.addEventListener("DOMContentLoaded", () => {
         input.type = "text";
         input.value = originalText;
         input.classList.add("edit-input");
-    
+
         // 완료 버튼
         const completeButton = document.createElement("button");
         completeButton.textContent = "완료";
         completeButton.classList.add("complete-btn");
         completeButton.addEventListener("click", () => saveEdit(li, input, span, checkbox));
-    
+
         // 취소 버튼
         const cancelButton = document.createElement("button");
         cancelButton.textContent = "취소";
         cancelButton.classList.add("cancel-btn");
         cancelButton.addEventListener("click", () => cancelEdit(li, span, originalText, checkbox));
-    
+
         // 버튼 컨테이너
         const buttonContainer = document.createElement("div");
         buttonContainer.classList.add("edit-buttons");
         buttonContainer.appendChild(completeButton);
         buttonContainer.appendChild(cancelButton);
-    
+
         // 기존 요소 숨기고 새로운 요소 추가
         li.innerHTML = "";
         li.appendChild(checkbox); // 체크박스 유지
         li.appendChild(input);
         li.appendChild(buttonContainer);
     }
-    
+
     // 수정 완료 시
     function saveEdit(li, input, span, checkbox) {
         span.textContent = input.value;
         resetListItem(li, span, checkbox);
         saveTasks();
     }
-    
+
     // 수정 취소 시 (원래 텍스트 유지)
     function cancelEdit(li, span, originalText, checkbox) {
         span.textContent = originalText;
         resetListItem(li, span, checkbox);
     }
-    
+
     // 원래 리스트 아이템 상태로 복원
     function resetListItem(li, span, checkbox) {
         const editButton = document.createElement("button");
         editButton.textContent = "수정";
         editButton.classList.add("edit");
         editButton.addEventListener("click", () => enableEditMode(li));
-    
+
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "삭제";
         deleteButton.classList.add("delete");
         deleteButton.addEventListener("click", () => showDeletePopup(li));
-    
+
         // 기존 요소 초기화 후 다시 추가
         li.innerHTML = "";
         li.appendChild(checkbox); // 체크박스 복원
@@ -274,11 +274,11 @@ document.addEventListener("DOMContentLoaded", () => {
             targetTask.remove();
             saveTasks();
         }
-        closeModal(); 
+        closeModal();
     });
 
     cancelDeleteBtn.addEventListener("click", () => {
-        closeModal(); 
+        closeModal();
     });
 
     // 팝업 닫기 
@@ -304,7 +304,117 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
-    
+
     // 초기 할 일 목록 불러오기
     loadTasks();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const teamModal = document.getElementById("team-modal");
+    const openTeamModalBtn = document.getElementById("open-team-modal");
+    const closeTeamModalBtn = document.getElementById("close-team-modal");
+    const createTeamBtn = document.getElementById("create-team");
+    const teamNameInput = document.getElementById("team-name-input");
+    const teamContainer = document.getElementById("team-container");
+
+    const teamDetailModal = document.getElementById("team-detail-modal");
+    const teamTitle = document.getElementById("team-title");
+    const inviteTeamMemberBtn = document.getElementById("invite-team-member");
+    const deleteTeamBtn = document.getElementById("delete-team");
+
+    const inviteModal = document.getElementById("invite-modal");
+    const inviteMemberInput = document.getElementById("invite-member-input");
+    const addMemberBtn = document.getElementById("add-member");
+    const memberList = document.getElementById("member-list");
+    const closeInviteModalBtn = document.getElementById("close-invite-modal");
+
+    let currentTeam = null;
+
+    // 🔹 "팀 만들기" 버튼 클릭 시 모달 열기
+    openTeamModalBtn.addEventListener("click", () => {
+        teamModal.style.display = "block";
+    });
+
+    // 🔹 "취소" 버튼 클릭 시 모달 닫기
+    closeTeamModalBtn.addEventListener("click", () => {
+        teamModal.style.display = "none";
+    });
+
+    //  팀 만들기 기능 (오류 수정)
+    createTeamBtn.addEventListener("click", () => {
+        const teamName = teamNameInput.value.trim();
+        if (teamName === "") {
+            alert("팀 이름을 입력해주세요!");
+            return;
+        }
+
+        // 새로운 팀 버튼 추가
+        const teamButton = document.createElement("button");
+        teamButton.classList.add("team-button");
+        teamButton.textContent = `팀 ${teamName}의 할 일 목록`;
+
+        teamContainer.appendChild(teamButton);
+
+        // 팀 버튼 클릭 시 상세 모달 표시
+        teamButton.addEventListener("click", () => {
+            currentTeam = teamButton;
+            teamDetailModal.style.display = "block";
+        });
+
+        // 입력 필드 초기화 후 모달 닫기
+        teamNameInput.value = "";
+        teamModal.style.display = "none";
+    });
+
+
+    // 초대하기 버튼 클릭 시 초대 모달 열기
+    inviteTeamMemberBtn.addEventListener("click", () => {
+        inviteModal.style.display = "block";
+    });
+
+    // 닫기 버튼 클릭 시 초대 모달 닫기
+    closeInviteModalBtn.addEventListener("click", () => {
+        inviteModal.style.display = "none";
+    });
+
+    // 팀원 초대 기능
+    addMemberBtn.addEventListener("click", () => {
+        const memberId = inviteMemberInput.value.trim();
+        if (memberId === "") {
+            alert("초대할 팀원의 아이디를 입력해주세요!");
+            return;
+        }
+
+        // 리스트에 추가
+        const li = document.createElement("li");
+        li.textContent = memberId;
+
+        // 삭제 버튼 추가
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "삭제";
+        deleteBtn.addEventListener("click", () => {
+            memberList.removeChild(li);
+        });
+
+        li.appendChild(deleteBtn);
+        memberList.appendChild(li);
+
+        // 입력 필드 초기화
+        inviteMemberInput.value = "";
+    });
+
+    // 팀 삭제 기능
+    deleteTeamBtn.addEventListener("click", () => {
+        if (currentTeam) {
+            currentTeam.remove();
+            teamDetailModal.style.display = "none";
+        }
+    });
+
+    // 모달 바깥을 클릭하면 닫기
+    window.addEventListener("click", (event) => {
+        if (event.target === teamModal) teamModal.style.display = "none";
+        if (event.target === teamDetailModal) teamDetailModal.style.display = "none";
+        if (event.target === inviteModal) inviteModal.style.display = "none";
+    });
 });

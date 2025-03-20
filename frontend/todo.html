@@ -12,47 +12,70 @@
     <div class="todo-container">
         <div class="sidebar">
             <span>할 일 목록</span>
+            <!-- 🔹 생성된 팀 목록이 여기에 추가될 예정 -->
+            <div id="team-container"></div>
+            <button id="open-team-modal">팀 만들기</button>
         </div>
+
         <div class="main-content">
             <div class="container">
-                <div class="container">
-                    <div class="input-group">
-                        <input type="text" id="todo-input" placeholder="할 일을 입력해주세요">
-                        <button id="add-todo">등록하기</button>
-                    </div>
-
-                    <h3>TO DO</h3>
-                    <ul id="todo-list">
-                        <p id="todo-empty">할 일 항목이 없습니다.</p>
-                        <li>
-                            <input type="text" class="edit-input" value="할 일 수정">
-                            <div class="edit-buttons">
-                                <button class="complete-btn">완료</button>
-                                <button class="cancel-btn">취소</button>
-                            </div>
-                        </li>
-                        
-                    </ul>
-
-                    <h3>DONE</h3>
-                    <ul id="done-list">
-                        <p id="done-empty">완료 항목이 없습니다.</p>
-                    </ul>
+                <div class="input-group">
+                    <input type="text" id="todo-input" placeholder="할 일을 입력해주세요">
+                    <button id="add-todo">등록하기</button>
                 </div>
 
-            </div>
-            <div id="confirmModal">
-                <p>정말 삭제하시겠습니까?</p>
-                <div class="button-container">
-                    <button id="confirmDelete">확인</button>
-                    <button id="cancelDelete">취소</button>
-                </div>
-            </div>
-            
+                <h3>TO DO</h3>
+                <ul id="todo-list">
+                    <p id="todo-empty">할 일 항목이 없습니다.</p>
+                </ul>
 
-
+                <h3>DONE</h3>
+                <ul id="done-list">
+                    <p id="done-empty">완료 항목이 없습니다.</p>
+                </ul>
+            </div>
         </div>
+    </div>
+
+    <div id="confirmModal">
+        <p>정말 삭제하시겠습니까?</p>
+        <div class="button-container">
+            <button id="confirmDelete">확인</button>
+            <button id="cancelDelete">취소</button>
+        </div>
+    </div>
+
+    <div id="team-modal" class="modal">
+        <div class="modal-content">
+            <p>팀 만들기</p>
+            <input type="text" id="team-name-input" placeholder="팀 이름을 입력해주세요">
+            <div class="button-container">
+                <button id="create-team">만들기</button>
+                <button id="close-team-modal">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="team-detail-modal" class="modal">
+        <div class="modal-content">
+            <div class="button-container">
+                <button id="invite-team-member">초대하기</button>
+                <button id="delete-team">삭제하기</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="invite-modal" class="modal">
+        <div class="modal-content">
+            <p>팀원 초대하기</p>
+            <input type="text" id="invite-member-input" placeholder="초대할 팀원의 아이디를 입력해주세요">
+            <button id="add-member">초대</button>
+            <ul id="member-list"></ul>
+            <button id="close-invite-modal">닫기</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 
 </html>
