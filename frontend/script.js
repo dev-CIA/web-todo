@@ -89,7 +89,7 @@ async function register() {
 
 
 
-
+//
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -308,6 +308,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // 초기 할 일 목록 불러오기
     loadTasks();
 });
+
+
+
+//
+
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const teamModal = document.getElementById("team-modal");
