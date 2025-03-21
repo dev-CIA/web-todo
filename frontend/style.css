@@ -1,0 +1,400 @@
+html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+/* 로그인 화면 */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 로그인 화면 전용 */
+.container {
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+}
+
+/* To-Do 화면 */
+.todo-container {
+    width: 80%;
+    height: 100vh;
+    display: flex;
+}
+/* 
+.sidebar {
+    width: 200px;
+    padding: 40px;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+} */
+
+.sidebar span {
+    text-align: left;
+    border-radius: 5px;
+    background-color: #E2E8F0;
+    display: block;
+    width: 88%;
+    margin-top: 5px;
+    padding: 8px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/* 메인 */
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* To-Do 화면 */
+.todo-container .container {
+    width: 100%;
+    max-width: 1000px;
+    text-align: left;
+}
+
+/* 할 일 입력창, 버튼 */
+input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    border: none;
+    background: #000000;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px; 
+    align-items: center;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.input-group button {
+    width: 100px; 
+    padding: 10px;
+    border: none;
+    background: #000000;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* 리스트 스타일 */
+li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+    border-radius: 5px;
+    gap: 5px;
+}
+
+/* 체크박스 스타일 커스텀 */
+li input[type="checkbox"] {
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    
+    /* 기본 스타일 제거 */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+
+    border: 2px solid rgb(110, 109, 109); 
+    border-radius: 8px; 
+    background-color: white; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+li input[type="checkbox"]:checked {
+    background-color: rgb(110, 109, 109); 
+    position: relative;
+}
+
+li input[type="checkbox"]:checked::after {
+    content: "✔";  
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+}
+
+/* 할 일 텍스트 스타일 */
+li span {
+    flex-grow: 1; 
+    min-width: 150px; 
+    text-align: left;
+    padding: 5px 10px;
+    white-space: nowrap; /* 한 줄 유지 */
+    overflow: hidden; /* 넘칠 경우 숨김 */
+    text-overflow: ellipsis; /* 말줄임표 표시 */
+}
+
+/* 버튼 그룹 */
+.button-group {
+    display: flex;
+    gap: 5px;
+}
+
+/* 수정, 삭제 버튼 */
+button.delete, button.edit {
+    padding: 8px 12px; 
+    font-size: 12px; 
+    border-radius: 5px;
+    width: auto; 
+    min-width: 50px; 
+}
+
+/* 삭제 버튼 스타일 */
+button.delete {
+    background: white;
+    color: red;
+    border: 1px solid red;
+}
+
+/* 수정 버튼 스타일 */
+button.edit {
+    background: white;
+    color: gray;
+    border: 1px solid gray;
+}
+
+/* 완료, 취소 버튼 컨테이너 */
+.edit-buttons {
+    display: flex;
+    gap: 5px; 
+}
+
+/* 완료, 취소 버튼 스타일 */
+.complete-btn, .cancel-btn {
+    padding: 8px 12px; 
+    font-size: 12px;
+    border-radius: 5px;
+    width: auto; 
+    min-width: 50px; 
+}
+
+.complete-btn {
+    background-color: #000000; /* 초록색 */
+    color: white;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+.cancel-btn {
+    background-color: #ffffff; /* 빨간색 */
+    color: rgb(0, 0, 0);
+    border: 1px solid gray;
+}
+
+/* 삭제 모달 스타일 */
+#confirmModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    min-height: 150px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* 삭제 메시지 스타일 */
+#confirmModal p {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* 삭제 모달 내 버튼 컨테이너*/
+#confirmModal .button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+/* 확인, 취소 버튼 스타일 */
+#confirmDelete, #cancelDelete {
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+#confirmDelete {
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+
+#cancelDelete {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid gray;
+    color: rgb(0, 0, 0);
+}
+
+
+
+
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 17%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.button-container {
+    display: flex;
+    gap: 5px; 
+    margin-left: auto;
+    width: 65%;
+    height: 50px;
+    margin-top: 20px;
+}
+
+#team-detail-modal{
+    width: 10%;
+    position: absolute;
+    left: 12%;
+    top: 22%;
+    border: 1px solid black;
+    padding: 0;
+}
+
+.button-container2 {
+    display: block;
+    width: 60%;
+    height: 50%;
+    gap: 5px;
+
+}
+
+#invite-team-member, #delete-team{
+    background-color: #ffffff;
+    color: black;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    padding: 0;
+}
+
+#invite-modal{
+    padding: 15px;
+}
+
+.invite-container {
+    display: flex;
+    gap: 5px; /* 간격 조절 */
+    width: 100%;
+}
+
+#add-member {
+    white-space: nowrap; 
+    width: 20%;
+}
+
+#close-invite-modal{
+    width: 25%;
+    padding: 7px;
+    margin-left: auto;
+    background-color: #ffffff;
+    color: black;
+    border: 1px solid gray;
+}
+
+
+#open-team-modal
+{
+    background-color:#f4f4f4;
+    border: 1px solid gray;
+    color: #000000;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-start;
+    padding: 20px;
+}
+
+
+#team-container {
+    margin-top: 10px;
+    width: 100%;
+}
+
+#close-team-modal{
+    background-color: #ffffff;
+    border: 1px solid gray;
+    color: #000000;
+    width: 49%;
+}
+
+.team-button {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #E2E8F0;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.team-button:hover {
+    background-color: #E2E8F0;
+}
